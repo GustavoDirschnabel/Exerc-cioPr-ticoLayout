@@ -4,10 +4,12 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.JFrame;
 import javax.swing.*;
-//import java.math.*;
+import java.math.*;
 public class Calculadora extends JFrame  {
 
 
@@ -47,7 +49,7 @@ public class Calculadora extends JFrame  {
 	
 	private GridBagLayout layout; 
 	private GridBagConstraints constraints;
-	
+	 
 	
 	public Calculadora() {
 		super("Calculadora");
@@ -168,10 +170,25 @@ public class Calculadora extends JFrame  {
 		buttonPi.addActionListener(handler);
 		buttonPercent.addActionListener(handler);
 		buttonFactorial.addActionListener(handler);
+		buttonSq.addActionListener(handler);
+		buttonCb.addActionListener(handler);
+		buttonSqR.addActionListener(handler);
+		buttonCbR.addActionListener(handler);
+		buttonEuler.addActionListener(handler);
+		buttonPower.addActionListener(handler);
+		buttonEquals.addActionListener(handler);
 		
 		
 	}
 	
+	
+	public Double igual(String exp) {
+		ArrayList<String> expression = new ArrayList<String>(Arrays.asList(exp.split(" ")));
+		for(String i:expression) {
+			System.out.println(i);
+		}
+		return null;
+	} 
 	
 	
 	private class ButtonHandler implements ActionListener {
@@ -199,32 +216,64 @@ public class Calculadora extends JFrame  {
 			} else if(e.getSource() == button9) {
 				textA.append("9");
 			} else if(e.getSource() == buttonPlus) {
-				textA.append("+");
+				textA.append(" + ");
 			} else if(e.getSource() == buttonMinus) {
-				textA.append("-");
+				textA.append(" - ");
 			} else if(e.getSource() == buttonDot) {
 				textA.append(".");
 			} else if(e.getSource() == buttonDivided) {
-				textA.append("/");
+				textA.append(" / ");
 			} else if(e.getSource() == buttonTimes) {
-				textA.append("*");
+				textA.append(" * ");
 			} else if(e.getSource() == buttonC) {
 				textA.setText(null);
 			} else if(e.getSource() == buttonParent1) {
-				textA.append("(");
+				textA.append("( ");
 			} else if(e.getSource() == buttonParent2) {
-				textA.append(")");
+				textA.append(" )");
 			} else if(e.getSource() == buttonPi) {
-				textA.append("π");
+				textA.append("3.14");
 			} else if(e.getSource() == buttonPercent) {
-				textA.append("%");
+				Double n = Double.parseDouble(textA.getText());
+				n = n/100;
+				textA.setText(n.toString());
 			} else if(e.getSource() == buttonFactorial) {
 				Integer f = Integer.parseInt(textA.getText());
 				for(Integer i = f-1; i > 0; i--) {
 					f = i*f;
 				}
-				textA.setText(null);
-				textA.append(f.toString());
+				textA.setText(f.toString());
+			} else if (e.getSource() == buttonSqR) {
+				Double n = Double.parseDouble(textA.getText());
+				n = Math.sqrt(n);
+				textA.setText(n.toString());
+				
+			} else if (e.getSource() == buttonCbR) {
+				Double n = Double.parseDouble(textA.getText());
+				n = Math.cbrt(n);
+				textA.setText(n.toString());
+				
+			} else if (e.getSource() == buttonSq) {
+				Double n = Double.parseDouble(textA.getText());
+				n = Math.pow(n, 2);
+				textA.setText(n.toString());
+				
+			} else if (e.getSource() == buttonCb) {
+				Double n = Double.parseDouble(textA.getText());
+				n = Math.pow(n, 3);
+				textA.setText(n.toString());
+				
+			} else if (e.getSource() == buttonEuler) {
+				Double n = Double.parseDouble(textA.getText());
+				n = Math.exp(n);
+				textA.setText(n.toString());
+				
+			} else if(e.getSource() == buttonEquals) {
+				igual(textA.getText());
+				
+			} else if (e.getSource() == buttonPower) {
+				textA.append(" ^ ");
+				
 			}
 		}
 	}
