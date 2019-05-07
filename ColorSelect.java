@@ -11,12 +11,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
 public class ColorSelect extends JFrame {
-	private JFrame frame;
-	private JButton ok,cancelar,cor;
+	private JButton ok,cancelar,cor,aumentarLapis,diminuirLapis,limpar;
 	private Color backColor = Color.LIGHT_GRAY;
-	private JPanel colorSelectPanel;
-	private Point[] points = new Point[10000];
-	private int pointCount = 0;
+	private JPanel colorSelectPanel,pencilEditPanel;
 	private PaintPanel panel = new PaintPanel();
 	
 	public ColorSelect () {
@@ -51,7 +48,9 @@ public class ColorSelect extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent event) {
 					ColorSelect.this.getContentPane().setBackground(backColor);
+					panel.setCurrentColor(backColor);
 					colorSelectPanel.setBackground(backColor);
+					pencilEditPanel.setBackground(backColor);
 				} 
 					
 				
@@ -65,7 +64,9 @@ public class ColorSelect extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent event) {
 					ColorSelect.this.getContentPane().setBackground(Color.LIGHT_GRAY);
+					panel.setCurrentColor(Color.LIGHT_GRAY);
 					colorSelectPanel.setBackground(Color.LIGHT_GRAY);
+					pencilEditPanel.setBackground(Color.LIGHT_GRAY);
 				} 
 					
 				
@@ -73,10 +74,55 @@ public class ColorSelect extends JFrame {
 		);
 		this.colorSelectPanel.add(cancelar);
 		
+		
+		this.pencilEditPanel = new JPanel();
+		this.pencilEditPanel.setBackground(Color.LIGHT_GRAY);
+		this.pencilEditPanel.setLayout(new GridLayout(1,3,20,20));
+		
+		
+		this.aumentarLapis = new JButton("Aumentar Lápis");
+		this.aumentarLapis.addActionListener(
+			new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent event) {
+					panel.setPencilRadius(panel.getPencilRadius() + 1);
+				} 
+				
+			}
+		);
+		
+		
+		this.pencilEditPanel.add(aumentarLapis);
+		
+		this.diminuirLapis = new JButton("Diminuir Lápis");
+		this.diminuirLapis.addActionListener(
+			new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent event) {
+					panel.setPencilRadius(panel.getPencilRadius() - 1);
+				} 
+					
+				
+			}
+		);
+		this.pencilEditPanel.add(diminuirLapis);
+		
+		this.limpar = new JButton("Limpar");
+		this.limpar.addActionListener(
+				new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent event) {
+						panel.setPointCount(0);
+					} 
+				}
+				);
+		
+		this.pencilEditPanel.add(limpar);
+		
 		this.add(colorSelectPanel,BorderLayout.WEST);
+		this.add(pencilEditPanel, BorderLayout.NORTH);
 		
 		this.add(panel, BorderLayout.CENTER);
-		
 		
 		
 	}

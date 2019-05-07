@@ -18,9 +18,11 @@ import javax.swing.*;
 
 public class PaintPanel extends JPanel {
 
-	private int pointCount = 0; // número de contagem de pontos
+	private int pointCount = 0, pencilRadius = 10; // número de contagem de pontos
 
-	private Point[] points = new Point[10]; // array de 10000 referencias ons.awt.Point
+	private Point[] points = new Point[10000]; // array de 10000 referencias ons.awt.Point
+	
+	private Color currentColor = Color.LIGHT_GRAY;
 
 	public PaintPanel() { // configura GUI e registra handler de evento
 
@@ -61,12 +63,31 @@ public class PaintPanel extends JPanel {
 
 		for (int i = 0; i < pointCount; i++) {
 
-			g.setColor(Color.MAGENTA);
+			g.setColor(this.currentColor);
 
-			g.fillArc(points[i].x,points[i].y, 10, 5, 0, 60);
+			g.fillArc(points[i].x,points[i].y, pencilRadius, pencilRadius, 0, 360);
 
 		}
+		
 
+	}
+	
+	public void setPointCount(int newPointCount) {
+		this.pointCount = newPointCount;
+		repaint();
+	}
+	
+	public void setCurrentColor(Color newColor) {
+		this.currentColor = newColor;
+	}
+	
+	public void setPencilRadius(int newPencilRadius) {
+		this.pencilRadius = newPencilRadius;
+		repaint();
+	}
+	
+	public int getPencilRadius() {
+		return this.pencilRadius;
 	}
 
 	public static void main(String[] args) {
