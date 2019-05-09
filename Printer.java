@@ -97,11 +97,10 @@ public class Printer extends JFrame {
 		whitePanel3.setSize(new Dimension(50,50));
 		
 		constraints = new GridBagConstraints();
-		constraints.fill = GridBagConstraints.BOTH;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
 		addComponentToGridBag(whitePanel1,centralPanel,1,1,1,GridBagConstraints.REMAINDER);
 		addComponentToGridBag(whitePanel2,centralPanel,1,3,1,GridBagConstraints.REMAINDER);
 		addComponentToGridBag(whitePanel3,centralPanel,1,5,1,GridBagConstraints.REMAINDER);
-		constraints.fill = GridBagConstraints.HORIZONTAL;
 		addComponentToGridBag(checkPanel,centralPanel,1,2,1,GridBagConstraints.REMAINDER);
 		addComponentToGridBag(radioPanel,centralPanel,1,4,1,GridBagConstraints.REMAINDER);
 		
