@@ -238,8 +238,8 @@ public class Calculadora extends JFrame  {
 					i=0;
 				}
 			}
-			expression.remove(expression.lastIndexOf("("));
-			expression.remove(expression.indexOf(")"));
+			subArray.remove(subArray.lastIndexOf("("));
+			subArray.remove(subArray.indexOf(")"));
 			if(expression.size() > 3) {
 				j=0;
 			}
