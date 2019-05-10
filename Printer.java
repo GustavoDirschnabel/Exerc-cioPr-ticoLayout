@@ -9,13 +9,14 @@ import java.awt.GridLayout;
 import javax.swing.*;
 
 public class Printer extends JFrame {
-	private JPanel centralPanel, radioPanel,checkPanel,eastPanel,southPanel,whitePanel1,whitePanel2,whitePanel3;
+	private JPanel centralPanel, radioPanel,checkPanel,eastPanel,southPanel;
 	private JCheckBox check1,check2,check3,checkSouth;
 	private JRadioButton radio1,radio2,radio3;
 	private ButtonGroup radioGroup;
 	private JLabel labelSouth, labelNorth;
 	private JButton button1,button2,button3,button4;
 	private JComboBox comboBox;
+	private JTextArea whiteSpace1,whiteSpace2,whiteSpace3;
 	private static final String[] comboNames = {"High","Medium","Low"};
 	private GridBagConstraints constraints;
 	
@@ -84,25 +85,25 @@ public class Printer extends JFrame {
 		radioGroup.add(radio2);
 		radioGroup.add(radio3);
 		
-		whitePanel1 = new JPanel();
-		whitePanel1.setBackground(Color.WHITE);
-		whitePanel1.setSize(new Dimension(50,50));
 		
-		whitePanel2 = new JPanel();
-		whitePanel2.setBackground(Color.WHITE);
-		whitePanel2.setSize(new Dimension(50,50));
+		String gamb = "                           ";
 		
-		whitePanel3 = new JPanel();
-		whitePanel3.setBackground(Color.WHITE);
-		whitePanel3.setSize(new Dimension(50,50));
+		whiteSpace1 = new JTextArea(gamb,10,1);
+		whiteSpace1.setEditable(false);
+		
+		whiteSpace2 = new JTextArea(gamb,10,1);
+		whiteSpace2.setEditable(false);
+		
+		whiteSpace3 = new JTextArea(gamb,10,1);
+		whiteSpace3.setEditable(false);
 		
 		constraints = new GridBagConstraints();
 		constraints.fill = GridBagConstraints.HORIZONTAL;
-		addComponentToGridBag(whitePanel1,centralPanel,1,1,1,GridBagConstraints.REMAINDER);
-		addComponentToGridBag(whitePanel2,centralPanel,1,3,1,GridBagConstraints.REMAINDER);
-		addComponentToGridBag(whitePanel3,centralPanel,1,5,1,GridBagConstraints.REMAINDER);
-		addComponentToGridBag(checkPanel,centralPanel,1,2,1,GridBagConstraints.REMAINDER);
-		addComponentToGridBag(radioPanel,centralPanel,1,4,1,GridBagConstraints.REMAINDER);
+		addComponentToGridBag(whiteSpace1,centralPanel,1,1,GridBagConstraints.REMAINDER,1);
+		addComponentToGridBag(checkPanel,centralPanel,1,2,GridBagConstraints.REMAINDER,1);
+		addComponentToGridBag(whiteSpace2,centralPanel,1,3,GridBagConstraints.REMAINDER,1);
+		addComponentToGridBag(radioPanel,centralPanel,1,4,GridBagConstraints.REMAINDER,1);
+		addComponentToGridBag(whiteSpace3,centralPanel,1,5,GridBagConstraints.REMAINDER,1);
 		
 		this.add(centralPanel, BorderLayout.CENTER);
 		
@@ -123,7 +124,7 @@ public class Printer extends JFrame {
 	public static void main(String[] args) {
 		Printer print = new Printer();
 		print.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		print.setSize(400,200);
+		print.setSize(600,300);
 		print.setVisible(true);
 	}
 
