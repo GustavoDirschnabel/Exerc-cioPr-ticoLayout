@@ -60,6 +60,7 @@ public class Calculadora extends JFrame  {
 		constraints.insets = new Insets(1,1,1,1);
 		
 		textA = new JTextArea(1,25);
+		textA.setEditable(false);
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		addComponent( textA, 0, 0, 7, 1 );
 		
@@ -128,10 +129,10 @@ public class Calculadora extends JFrame  {
 		buttonPercent = new JButton("%");
 		addComponent(buttonPercent,2,1,1,1);
 		
-		buttonSq = new JButton("x²");
+		buttonSq = new JButton("xÂ²");
 		addComponent(buttonSq,2,2,1,1);
 		
-		buttonCb = new JButton("x³");
+		buttonCb = new JButton("xÂ³");
 		addComponent(buttonCb,3,0,1,1);
 		
 		buttonPower = new JButton("x^y");
@@ -186,8 +187,16 @@ public class Calculadora extends JFrame  {
 	public String igual(String exp) {
 		ArrayList<String> expression = new ArrayList<String>(Arrays.asList(exp.split(" ")));
 		for(int j = 0; j < expression.size();j++) {
-			if(expression.contains("(")) {				
-			List<String> subArray = expression.subList(expression.lastIndexOf("("),expression.indexOf(")")+1);	
+			if(expression.contains("(")) {
+				int parent1 = expression.lastIndexOf("(");
+				int parent2 = 0;
+				for(int i = parent1;i< expression.size();i++) {
+					if(expression.get(i).equals(")")) {
+						parent2 = i;
+						break;
+					}
+				}
+				List<String> subArray = expression.subList(parent1,parent2+1);	
 			for(int i = 0; i < subArray.size(); i++) {
 				if( subArray.get(i).equals("^")){
 					Double inter = new Double(0.0);
@@ -306,20 +315,26 @@ public class Calculadora extends JFrame  {
 			} else if(e.getSource() == button9) {
 				textA.append("9");
 			} else if(e.getSource() == buttonPlus) {
-				textA.append(" + ");
+				if(Character.isDigit(textA.getText().charAt(textA.getText().length()-1))|| textA.getText().endsWith(")")) {
+					textA.append(" + ");
+				}
 			} else if(e.getSource() == buttonMinus) {
 				if(textA.getText().endsWith("* ") || textA.getText().endsWith("+ ") || textA.getText().endsWith("- ") || textA.getText().endsWith("/ ") ) {
 					textA.append("-");
 				}
 				else {
-				textA.append(" - ");
+					textA.append(" - ");
 				}
 			} else if(e.getSource() == buttonDot) {
 				textA.append(".");
 			} else if(e.getSource() == buttonDivided) {
-				textA.append(" / ");
+				if(Character.isDigit(textA.getText().charAt(textA.getText().length()-1))|| textA.getText().endsWith(")")) {
+					textA.append(" / ");
+				}
 			} else if(e.getSource() == buttonTimes) {
-				textA.append(" * ");
+				if(Character.isDigit(textA.getText().charAt(textA.getText().length()-1))|| textA.getText().endsWith(")")) {
+					textA.append(" * ");
+				}
 			} else if(e.getSource() == buttonC) {
 				textA.setText(null);
 			} else if(e.getSource() == buttonParent1) {
@@ -367,8 +382,9 @@ public class Calculadora extends JFrame  {
 				textA.setText(igual(textA.getText()));
 				
 			} else if (e.getSource() == buttonPower) {
-				textA.append(" ^ ");
-				
+				if(Character.isDigit(textA.getText().charAt(textA.getText().length()-1))|| textA.getText().endsWith(")")) {
+					textA.append(" ^ ");
+				}
 			}
 		}
 	}
