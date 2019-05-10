@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.*;
@@ -127,10 +128,10 @@ public class Calculadora extends JFrame  {
 		buttonPercent = new JButton("%");
 		addComponent(buttonPercent,2,1,1,1);
 		
-		buttonSq = new JButton("xÂ²");
+		buttonSq = new JButton("x²");
 		addComponent(buttonSq,2,2,1,1);
 		
-		buttonCb = new JButton("xÂ³");
+		buttonCb = new JButton("x³");
 		addComponent(buttonCb,3,0,1,1);
 		
 		buttonPower = new JButton("x^y");
@@ -182,14 +183,103 @@ public class Calculadora extends JFrame  {
 	}
 	
 	
-	public Double igual(String exp) {
+	public String igual(String exp) {
 		ArrayList<String> expression = new ArrayList<String>(Arrays.asList(exp.split(" ")));
-		for(String i:expression) {
-			System.out.println(i);
+		for(int j = 0; j < expression.size();j++) {
+			if(expression.contains("(")) {				
+			List<String> subArray = expression.subList(expression.lastIndexOf("("),expression.indexOf(")")+1);	
+			for(int i = 0; i < subArray.size(); i++) {
+				if( subArray.get(i).equals("^")){
+					Double inter = new Double(0.0);
+					inter = Math.pow(Double.parseDouble(subArray.get(i-1)) , Double.parseDouble(subArray.get(i+1)));
+					subArray.subList(i-1,i+2).clear();
+					subArray.add(i-1, inter.toString());
+					i=0;
+				}
+			}
+			for(int i = 0; i < subArray.size(); i++) {
+				if( subArray.get(i).equals("*")){
+					Double inter = new Double(0.0);
+					inter = Double.parseDouble(subArray.get(i-1)) * Double.parseDouble(subArray.get(i+1));
+					subArray.subList(i-1,i+2).clear();
+					subArray.add(i-1, inter.toString());
+					i=0;
+				}
+				if( subArray.get(i).equals("/")){
+					Double inter = new Double(0.0);
+					inter = Double.parseDouble(subArray.get(i-1)) / Double.parseDouble(subArray.get(i+1));
+					subArray.subList(i-1,i+2).clear();
+					subArray.add(i-1, inter.toString());
+					i=0;
+				}
+			}
+			for(int i = 0; i < subArray.size(); i++) {
+				if( subArray.get(i).equals("+")){
+					Double inter = new Double(0.0);
+					inter = Double.parseDouble(subArray.get(i-1)) + Double.parseDouble(subArray.get(i+1));
+					subArray.subList(i-1,i+2).clear();
+					subArray.add(i-1, inter.toString());
+					i=0;
+				}
+				if( subArray.get(i).equals("-")){
+					Double inter = new Double(0.0);
+					inter = Double.parseDouble(subArray.get(i-1)) - Double.parseDouble(subArray.get(i+1));
+					subArray.subList(i-1,i+2).clear();
+					subArray.add(i-1, inter.toString());
+					i=0;
+				}
+			}
+			expression.remove(expression.lastIndexOf("("));
+			expression.remove(expression.indexOf(")"));
+			if(expression.size() > 3) {
+				j=0;
+			}
 		}
-		return null;
+		}
+		for(int i = 0; i < expression.size(); i++) {
+			if( expression.get(i).equals("^")){
+				Double inter = new Double(0.0);
+				inter = Math.pow(Double.parseDouble(expression.get(i-1)) , Double.parseDouble(expression.get(i+1)));
+				expression.subList(i-1,i+2).clear();
+				expression.add(i-1, inter.toString());
+				i=0;
+			}
+		}
+		for(int i = 0; i < expression.size(); i++) {
+			if( expression.get(i).equals("*")){
+				Double inter = new Double(0.0);
+				inter = Double.parseDouble(expression.get(i-1)) * Double.parseDouble(expression.get(i+1));
+				expression.subList(i-1,i+2).clear();
+				expression.add(i-1, inter.toString());
+				i=0;
+			}
+			if( expression.get(i).equals("/")){
+				Double inter = new Double(0.0);
+				inter = Double.parseDouble(expression.get(i-1)) / Double.parseDouble(expression.get(i+1));
+				expression.subList(i-1,i+2).clear();
+				expression.add(i-1, inter.toString());
+				i=0;
+			}
+		}
+		for(int i = 0; i < expression.size(); i++) {
+			if( expression.get(i).equals("+")){
+				Double inter = new Double(0.0);
+				inter = Double.parseDouble(expression.get(i-1)) + Double.parseDouble(expression.get(i+1));
+				expression.subList(i-1,i+2).clear();
+				expression.add(i-1, inter.toString());
+				i=0;
+			}
+			if( expression.get(i).equals("-")){
+				Double inter = new Double(0.0);
+				inter = Double.parseDouble(expression.get(i-1)) - Double.parseDouble(expression.get(i+1));
+				expression.subList(i-1,i+2).clear();
+				expression.add(i-1, inter.toString());
+				i=0;
+			}
+		}
+		
+		return expression.get(0);
 	} 
-	
 	
 	private class ButtonHandler implements ActionListener {
 
@@ -218,7 +308,12 @@ public class Calculadora extends JFrame  {
 			} else if(e.getSource() == buttonPlus) {
 				textA.append(" + ");
 			} else if(e.getSource() == buttonMinus) {
+				if(textA.getText().endsWith("* ") || textA.getText().endsWith("+ ") || textA.getText().endsWith("- ") || textA.getText().endsWith("/ ") ) {
+					textA.append("-");
+				}
+				else {
 				textA.append(" - ");
+				}
 			} else if(e.getSource() == buttonDot) {
 				textA.append(".");
 			} else if(e.getSource() == buttonDivided) {
@@ -269,7 +364,7 @@ public class Calculadora extends JFrame  {
 				textA.setText(n.toString());
 				
 			} else if(e.getSource() == buttonEquals) {
-				igual(textA.getText());
+				textA.setText(igual(textA.getText()));
 				
 			} else if (e.getSource() == buttonPower) {
 				textA.append(" ^ ");
@@ -284,7 +379,7 @@ public class Calculadora extends JFrame  {
 		// TODO Auto-generated method stub
 		Calculadora calc = new Calculadora();
 		calc.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		calc.setSize(400, 130);
+		calc.setSize(400, 200);
 		calc.setVisible(true);
 	}
 
